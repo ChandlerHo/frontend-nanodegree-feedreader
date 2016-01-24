@@ -68,12 +68,15 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
           it('visibility changes', function() {
-                menuIcon = $('.menu-icon-link');
-                //Menu should be hidden initially
-                expect($('body').hasClass('menu-hidden')).toBeTruthy();
-                //Menu should be shown after click
-                menuIcon.click();
-                expect($('body').hasClass('menu-hidden')).toBeFalsy();
+            menuIcon = $('.menu-icon-link');
+            //Menu should be hidden initially
+            expect($('body').hasClass('menu-hidden')).toBeTruthy();
+            //Menu should be shown after clicks
+            menuIcon.click();
+            expect($('body').hasClass('menu-hidden')).toBeFalsy();
+            //Menu should be hidden after click again
+            menuIcon.click();
+            expect($('body').hasClass('menu-hidden')).toBeTruthy();
           });
     });
     /* TODO: Write a new test suite named "Initial Entries" */
@@ -85,12 +88,27 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+         //use done to signal 
+         beforeEach(function(done) {
+            loadFeed(0, function() {
+                done();
+            });
+         });
+         it('contains single .entry in the .feed container', function(done) {
+            var container = $('.feed .entry')[0];
+            expect(container).toBeGreaterThan('');
+            done();
+         });
 
-    /* TODO: Write a new test suite named "New Feed Selection"
+    });
 
+        // TODO: Write a new test suite named "New Feed Selection"
+    describe('New Feed Selection', function() {
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+
+
     });
 }());
