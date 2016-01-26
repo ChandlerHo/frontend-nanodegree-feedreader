@@ -30,18 +30,18 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
-        allFeeds.forEach(function(allFeeds) {
+        allFeeds.forEach(function(feeds) {
             it('urls are defined', function() {
-                expect(allFeeds.url).toBeDefined();
-                expect(allFeeds.url).not.toBe(0);
+                expect(feeds.url).toBeDefined();
+                expect(feeds.url.length).not.toBe(0);
             });
         /* A test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
             it('names are defined', function() {
-                expect(allFeeds.name).toBeDefined();
-                expect(allFeeds.name).not.toBe(0);
+                expect(feeds.name).toBeDefined();
+                expect(feeds.name.length).not.toBe(0);
             });
         });
     });
@@ -54,7 +54,7 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-         it('hides menu', function() {
+         it('is hidden by default', function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
          });
 
@@ -103,13 +103,13 @@ $(function() {
 
     });
 
-        // TODO: Write a new test suite named "New Feed Selectin"
+        // A new test suite named "New Feed Selectin"
     describe('New Feed Selection', function() {
         var oldContent;
         var newContent;
 
         beforeEach(function(done) {
-            oldContent = $('.feed').empty();
+            $('.feed').empty();
 
             loadFeed(0, function() {
                 oldContent = $('.feed').html();
@@ -118,7 +118,7 @@ $(function() {
                 });
             });
         });
-        /* TODO: Write a test that ensures when a new feed is loaded
+        /* A test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
