@@ -30,18 +30,20 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
-        allFeeds.forEach(function(feeds) {
-            it('urls are defined', function() {
-                expect(feeds.url).toBeDefined();
-                expect(feeds.url.length).not.toBe(0);
+        it('urls are defined', function() {
+            allFeeds.forEach(function(feed) {
+                expect(feed.url).toBeDefined();
+                expect(feed.url.length).not.toBe(0);
             });
+        });
         /* A test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-            it('names are defined', function() {
-                expect(feeds.name).toBeDefined();
-                expect(feeds.name.length).not.toBe(0);
+        it('names are defined', function() {
+            allFeeds.forEach(function(feed) {
+                expect(feed.name).toBeDefined();
+                expect(feed.name.length).not.toBe(0);
             });
         });
     });
@@ -54,23 +56,22 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-         it('is hidden by default', function() {
+        it('changes visibility when the menu icon is clicked', function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
-         });
+        });
 
          /* A test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-          it('visibility changes', function() {
+        it('visibility changes', function() {
             menuIcon = $('.menu-icon-link');
             //Hides menu by default
-            expect($('body').hasClass('menu-hidden')).toBeTruthy();
             //Menu should be shown after clicks
             menuIcon.click();
             expect($('body').hasClass('menu-hidden')).toBeFalsy();
-            //Menu should be hidden after click again
+            //Menue should be closed if click again
             menuIcon.click();
             expect($('body').hasClass('menu-hidden')).toBeTruthy();
           });
@@ -86,49 +87,41 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-         //use done to signal 
-    
-         beforeEach(function(done) {
+        beforeEach(function(done) {
             loadFeed(0, function() {
                 done();
             });
          });
-         it('contains single .entry in the .feed container', function(done) {
+        it('contains single .entry in the .feed container', function() {
             var container = $('.feed .entry')[0];
             expect(container).toBeDefined();
-            expect($('.feed').length).toBeGreaterThan(0);
             expect($('.entry').length).toBeGreaterThan(0);
-            done();
-         });
+        });
 
     });
 
         // A new test suite named "New Feed Selectin"
     describe('New Feed Selection', function() {
         var oldContent;
-        var newContent;
 
         beforeEach(function(done) {
-            $('.feed').empty();
-
-            loadFeed(0, function() {
+            loadFeed(1, function() {
                 oldContent = $('.feed').html();
-                loadFeed(1, function() {
-                    done();
-                });
+                done();
             });
         });
         /* A test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-         it('new feed content changes', function(done) {
-            newContent = $('.feed').html();
-            expect(oldContent).not.toBe(newContent);
-            done();
-         });
-         afterAll(function(done) {
+        it('new feed content changes', function(done) {
+            loadFeed(0,function() {
+                expect($('.feed').html()).not.toEqual(oldContent);
+                done();
+            });
+        });
+        afterAll(function(done) {
             loadFeed(0, done);
-         });
+        });
     });
 }());
